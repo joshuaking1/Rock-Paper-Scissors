@@ -1,64 +1,92 @@
-function getComputerChoice(){
-    const computerChoice = Math.floor(Math.random() * 3);
-    let randomChoice;
-    if(computerChoice === 1){
-        randomChoice = "Rock";
-    } else if(computerChoice == 2) {
-        randomChoice = "Paper";
-    }else{
-        randomChoice = "Scissors"
+// 1. Initial Setup - Variables we need throughout the game
+let playerScore = 0;
+let computerScore = 0;
+
+const emojis = {
+    rock: '🪨',
+    paper: '📄',
+    scissors: '✂️'
+};
+
+// 2. Core Game Logic - First function that runs when player clicks
+function play(playerChoice) {
+    // Generate computer's choice
+    const choices = ['rock', 'paper', 'scissors'];
+    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+    
+    // Show both choices on screen
+    displayChoices(playerChoice, computerChoice);
+    
+    // Figure out who won
+    const result = determineWinner(playerChoice, computerChoice);
+    
+    // Update everything
+    updateScore(result);
+    displayResult(result);
+}
+
+// 3. Game Rules - Checks who wins
+function determineWinner(player, computer) {
+    // Check for tie first
+    if (player === computer) {
+        return 'tie';
     }
-    return randomChoice
-}
-
-function getHumanChoice(){
-    const humanChoice = prompt("Rock, Paper, Scissors NB: the fist letter must be capital thank you")
-    if(humanChoice === "Rock" || humanChoice === "Paper" || humanChoice === "Scissors")
-        return humanChoice
-}
-
-
-
-
-
-
-function playGame(){
-        function playRound(playerSelection, computerSelection) {
-        let humanScore = 0;
-        let computerScore = 0;
-        // Convert both choices to lowercase for case-insensitive comparison
-        const player = playerSelection.toLowerCase();
-        const computer = computerSelection.toLowerCase();
-
-        // Determine the winner based on the game rules
-        if (player === computer) {
-            console.log("It's a tie! Both chose " + playerSelection);
-        } else if (
-            (player === "rock" && computer === "scissors") ||
-            (player === "scissors" && computer === "paper") ||
-            (player === "paper" && computer === "rock")
-        ) {
-            humanScore++
-            console.log("You win! " + playerSelection + " beats " + computerSelection);
-        } else {
-            computerScore++
-            console.log("You lose! " + computerSelection + " beats " + playerSelection);
-        }
-        console.log("Your Score is " + humanScore + " and computer score is " + computerScore)
-        if(humanScore > computerScore){
-            console.log("You won")
-        }else{
-            console.log("You lost")
-        }
+    
+    // Check all winning combinations
+    if (
+        (player === 'rock' && computer === 'scissors') ||
+        (player === 'paper' && computer === 'rock') ||
+        (player === 'scissors' && computer === 'paper')
+    ) {
+        return 'win';
     }
-    const humanSelection = getHumanChoice();
-const aiSelection = getComputerChoice();
-
-playRound(humanSelection, aiSelection)
+    
+    // If not tie and not win, must be loss
+    return 'lose';
 }
 
-playGame()
-playGame()
-playGame()
-playGame()
-playGame()
+// 4. Display Functions - Show the game state on screen
+function displayChoices(player, computer) {
+    const battle = document.getElementById('battle');
+    
+    // Update emoji displays
+    document.getElementById('playerChoice').textContent = emojis[player];
+    document.getElementById('computerChoice').textContent = emojis[computer];
+    
+    // Reset animation
+    battle.classList.remove('show');
+    void battle.offsetWidth; // Force animation reset
+    battle.classList.add('show');
+}
+
+// 5. Score Management
+function updateScore(result) {
+    // Update scores
+    if (result === 'win') {
+        playerScore++;
+    }
+    if (result === 'lose') {
+        computerScore++;
+    }
+    
+    // Update score display
+    document.getElementById('score').textContent = 
+        `Score: ${playerScore} - ${computerScore}`;
+}
+
+// 6. Result Display
+function displayResult(result) {
+    const resultDiv = document.getElementById('result');
+    
+    // Add proper styling class
+    resultDiv.className = 'result ' + result;
+    
+    // Show appropriate message
+    if (result === 'win') {
+        resultDiv.textContent = 'You win! 🎉';
+    } else if (result === 'lose') {
+        resultDiv.textContent = 'Computer wins! 😔';
+    } else {
+        resultDiv.textContent = "It's a tie! 🤝";
+    }
+}

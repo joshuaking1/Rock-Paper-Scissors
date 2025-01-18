@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .game-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 600px;
+    width: 90%;
+  }
+
+  h1 {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+
+  .choices {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .choice-btn {
+    font-size: 2rem;
+    padding: 1rem;
+    width: 80px;
+    height: 80px;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .choice-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .choice-btn:active {
+    transform: translateY(0);
+  }
+
+  .battle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .battle.show {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.3s ease-out;
+  }
+
+  .player-choice, .computer-choice {
+    text-align: center;
+  }
+
+  .choice-display {
+    font-size: 4rem;
+    margin: 1rem 0;
+    display: inline-block;
+  }
+
+  .player-choice .choice-display {
+    animation: slideInLeft 0.5s ease-out;
+  }
+
+  .computer-choice .choice-display {
+    animation: slideInRight 0.5s ease-out;
+  }
+
+  .vs {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #4a5568;
+  }
+
+  .result {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    min-height: 2rem;
+  }
+
+  .score {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #4a5568;
+  }
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .win {
+    color: #48bb78;
+    animation: pop 0.3s ease-out;
+  }
+
+  .lose {
+    color: #f56565;
+    animation: pop 0.3s ease-out;
+  }
+
+  .tie {
+    color: #4a5568;
+    animation: pop 0.3s ease-out;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
